@@ -21,11 +21,10 @@ export default class App extends Component {
     const { name, value } = e.currentTarget;
     this.setState({ [name]: value });
     this.props.onChange(this.state);
-    //console.log(value);
   };
   
   formSubmitHandler = ({ name, number }) => {
-       
+    localStorage.getItem('contacts');
     this.contactId = shortid.generate();
     const contact = {
       id: this.contactId,
@@ -36,6 +35,7 @@ export default class App extends Component {
       if (this.state.contacts.find(contact => contact.name === name))
       { alert(`${contact.name} is already in contacts`); }
       else {
+        console.log(this.state.contacts);
         this.setState(prevState => {
           return {
             contacts: [...prevState.contacts, contact],
@@ -44,6 +44,21 @@ export default class App extends Component {
       };
     }
   }
+
+  componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(contacts);
+
+    if (parsedContacts) {
+      this.setState({contacts: parsedContacts});
+    }
+}
+
+  componentDidUpdate(prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+      }
+}
 
   changeFilter = e => {
     this.setState({ filter: e.currentTarget.value });
@@ -64,24 +79,6 @@ export default class App extends Component {
       contact.name.toLowerCase().includes(normalizedFilter)
     );
   }
-
-  componentDidMount() {
-    const contacts = localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(contacts);
-
-    if (parsedContacts) {
-      this.setState({ contacts: parsedContacts });
-    }
-  }
-
-  componentDidUpdate(prevState) {
-
-    if (this.state.contacts !== prevState.contacts) {
-      console.log('Обновилось поле contacts');
-
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
   
   render() {
     const { contacts, filter } = this.state;
@@ -90,23 +87,23 @@ export default class App extends Component {
 
 
     return (
-      <>
-        <Layout title="Phonebook">
+        <Layout >
           <ContactForm
             onSubmit={this.formSubmitHandler}
          />
-        </Layout>
 
-        {contacts.length > 0 && (<Layout title="Contacts">
-          <ContactFilter
-            onChange={this.changeFilter}
-            value={filter}
-          ></ContactFilter>
-          <ContactList
-            onRemoveContact={this.removeContact}
-            contacts={visibleContacts} />
-        </Layout>)}
-      </>
+          {contacts.length > 0 &&
+            <>
+            <ContactFilter
+              onChange={this.changeFilter}
+              value={filter}>
+            </ContactFilter>  
+          
+            <ContactList
+              onRemoveContact={this.removeContact}
+              contacts={visibleContacts} />
+            </>}
+        </Layout>
     )
   }
 }

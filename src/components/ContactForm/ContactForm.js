@@ -28,6 +28,8 @@ class ContactForm extends Component {
 
   render() {
     return (
+      <>
+        <h2>Phonebook</h2>
       <form className={styles.box} onSubmit={this.handleSubmit} >
         <label htmlFor={this.nameInputId} className={styles.name}>
           Name
@@ -38,7 +40,7 @@ class ContactForm extends Component {
             value={this.state.name}
             onChange={this.handleChange}
             className={styles.input}
-            placeholder='Please enter a name' />
+            placeholder='Enter contact name' />
         </label>
         <label htmlFor={this.numberInputId} className={styles.number}>
           Number
@@ -49,12 +51,13 @@ class ContactForm extends Component {
             value={this.state.number}
             onChange={this.handleChange}
             className={styles.input}
-            placeholder='Please enter the number' />
+            placeholder='Enter contact number' />
         </label>
         <button type='submit' className={styles.button}>
           Add contact
             </button>
-      </form>
+        </form>
+        </>
     );
   }
 }

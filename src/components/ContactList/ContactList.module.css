@@ -13,17 +13,6 @@
   margin-left: 15px;
   list-style: disc;
 }
-/*
-.name::before {
-  position: absolute;
-  background-color: #000000;
-  border-radius: 10px;
-  content: "";
-  width: 5px;
-  height: 5px;
-  top: 0;
-  left: 0;
-}*/
 
 .button {
   font-size: 13px;

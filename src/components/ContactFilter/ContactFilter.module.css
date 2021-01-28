@@ -6,7 +6,7 @@
 }
 .input:focus,
 .input:hover {
-  border: 2px solid blueviolet;
+  border: 2px solid green;
   border-radius: 5px;
 }
 .label {
